@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qingqiao.mapper.StudentMapper">
+    <resultMap id="baseStuMap" type="student">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="sex" property="sex"/>
+        <result column="age" property="age"/>
+        <result column="hobby" property="hobby"/>
+        <result column="address" property="address"/>
+        <result column="birthday" property="birthday"/>
+        <result column="score" property="score"/>
+        <collection property="stuAndMis" column="sid" ofType="StuAndMis">
+            <association property="mistakes" column="mid" javaType="Mistakes">
+                <id column="mid" property="id"/>
+                <result column="mname" property="name"/>
+                <result column="mscore" property="score"/>
+            </association>
+        </collection>
+    </resultMap>
+    <select id="queryAll" resultMap="baseStuMap">
+select s.*,mid,sid,m.name mname,m.score mscore from m_student s left join stuandmis sm on s.id=sm.sid left join mistakes m on sm.mid=m.id
+    </select>
+</mapper>
